@@ -1,7 +1,8 @@
 // require express and other modules
 var express = require('express'),
     app = express(),
-    bodyParser = require('body-parser');
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose');
 
 // configure body-parser (for form data)
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -11,6 +12,12 @@ app.use(express.static(__dirname + '/public'));
 
 // set hbs as server view engine
 app.set('view engine', 'hbs');
+
+// connect to mongodb
+mongoose.connect('mongodb://localhost/workout-app');
+
+// require Workout model
+var Workout = require('./models/workout');
 
 
 // HOMEPAGE ROUTE
@@ -23,13 +30,15 @@ app.get('/', function (req, res) {
 // API ROUTES
 
 // test data
-var allWorkouts = [
-  { exercise: 'Ran 3 miles', category: 'cardio' },
-  { exercise: 'Yoga', category: 'stretching' }
-];
+// var allWorkouts = [
+//   { exercise: 'Ran 3 miles', category: 'cardio' },
+//   { exercise: 'Yoga', category: 'stretching' }
+// ];
 
 app.get('/api/workouts', function (req, res) {
-  res.json({ workouts: allWorkouts });
+  Workout.find(function (err, allWorkouts) {
+    res.json({ workouts: allWorkouts });
+  });
 });
 
 
