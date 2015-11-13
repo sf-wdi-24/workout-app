@@ -16,7 +16,20 @@ app.set('view engine', 'hbs');
 // HOMEPAGE ROUTE
 
 app.get('/', function (req, res) {
-  res.send('hello world');
+  res.render('index');
+});
+
+
+// API ROUTES
+
+// test data
+var allWorkouts = [
+  { exercise: 'Ran 3 miles', category: 'cardio' },
+  { exercise: 'Yoga', category: 'stretching' }
+];
+
+app.get('/api/workouts', function (req, res) {
+  res.json({ workouts: allWorkouts });
 });
 
 
