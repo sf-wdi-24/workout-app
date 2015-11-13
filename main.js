@@ -10,7 +10,12 @@ $(function() {
     { exercise: 'Yoga', category: 'stretching' }
   ];
 
-  var workoutsHtml = template({ workouts: allWorkouts });
-  $('#workouts-list').append(workoutsHtml);
+  // AJAX call to GET all workouts
+  $.get('/api/workouts', function (data) {
+    allWorkouts = data.workouts;
+    
+    var workoutsHtml = template({ workouts: allWorkouts });
+    $('#workouts-list').append(workoutsHtml);
+  });
 
 });
